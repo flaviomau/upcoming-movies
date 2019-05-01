@@ -1,5 +1,6 @@
 const ICrud = require('../base/interfaceDB')
 const Mongoose = require('mongoose')
+const config = require('config')
 
 const STATUS = {
   0: 'disconnected',
@@ -10,10 +11,10 @@ const STATUS = {
 
 class MongoDB extends ICrud {
 
-  constructor(connection, schema) {
+  constructor(connection, schema) {        
     super()
-    this._connection = connection;
-    this._collection = schema;
+    this._connection = connection
+    this._collection = schema
   }
 
   async isConnected() {
@@ -28,8 +29,16 @@ class MongoDB extends ICrud {
 
   }
 
-  async connect() {
-    Mongoose.connect('mongodb://upcomingAppAdmin:moviesAppAdmin@localhost:27017/movies', {
+  static connect() {
+    const username = config.get('mongodb.username') || ""
+    const password = config.get('mongodb.password') || ""
+    const server = config.get('mongodb.server') || "localhost"
+    const port = config.get('mongodb.port') || 27017
+    const database = config.get('mongodb.database') || "movies"
+
+    const uri = `mongodb://${username}:${password}@${server}:${port}/${database}`
+
+    Mongoose.connect(uri, {
       useNewUrlParser: true
     }, function (error) {
       if (!error) return;
@@ -37,7 +46,7 @@ class MongoDB extends ICrud {
     })
     const connection = Mongoose.connection
     connection.once('open', () => console.log('database online...'))
-    return connection;
+    return connection
   }
 
   async create(item) {

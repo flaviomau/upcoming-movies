@@ -26,4 +26,4 @@ const movieSchema = new Mongoose.Schema({
   }
 })
 
-module.exports = Mongoose.model('movies', movieSchema)
+module.exports = Mongoose.models.movies || Mongoose.model('movies', movieSchema)

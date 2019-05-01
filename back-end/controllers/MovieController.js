@@ -14,6 +14,11 @@ class MovieController {
     }
   
     readAll(request, response, next) {
+      //check if validate the cache data
+      //  if the cache must be checked, read the fisrt page of TMDb API
+      //    If the hash of first page data is diferent from the hash of cache, we need to update the cache database
+      //    update cache first page hash 
+      //return data using chache database
       this.model.find({})
         .then(function (data) {
           response.json(data)
