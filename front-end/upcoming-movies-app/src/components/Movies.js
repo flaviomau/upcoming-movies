@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import actionCreators from '../redux/actionCreators'
 
 import Spinner from 'react-bootstrap/Spinner'
+import CardColumns from 'react-bootstrap/CardColumns'
+import MovieCard from './MovieCard'
 
 class Movies extends Component {
   componentDidMount() {
@@ -16,11 +18,16 @@ class Movies extends Component {
         this.props.isLoading && <Spinner animation="border" />
       }
       {
-        !this.props.isLoading && this.props.data.map( movie => {
-          return (
-            <h4 key={movie._id}>{movie.name}</h4>
-          )
-        })
+        !this.props.isLoading && 
+        <CardColumns>
+          {
+            this.props.data.map( movie => {
+              return (
+                <MovieCard key={movie._id} movie={movie}/>
+              )
+            })
+          }
+        </CardColumns>        
       }
       </div>
     )
