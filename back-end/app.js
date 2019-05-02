@@ -2,6 +2,7 @@ const express         = require('express'),
       methodOverride  = require('method-override'),
       bodyParser      = require('body-parser'),
       routes          = require('./routes'),
+      cors            = require('cors'),
       app             = express()
 
 // server config
@@ -9,6 +10,7 @@ app.use(methodOverride('X­HTTP­Method'))
 app.use(methodOverride('X­HTTP­Method­Override'))
 app.use(methodOverride('X­Method­Override'))
 app.use(methodOverride('_method'))
+app.use(cors())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))

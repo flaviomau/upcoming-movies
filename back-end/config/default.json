@@ -1,14 +1,14 @@
 {
-    "mongodb": {
-      "username": "upcomingAppAdmin",
-      "password":"moviesAppAdmin",
-      "server": "localhost",
-      "port": "27017",
-      "database": "movies"
-    },
-    "TMDbToken" : "1f54bd990f1cdfb230adb312546d765d",
-    "cacheValidTime" : 10,
-    "TMDbUpcomingURL": "https://api.themoviedb.org/3/movie/upcoming",
-    "TMDbConfigURL": "https://api.themoviedb.org/3/configuration",
-    "TMDbGenresURL": "https://api.themoviedb.org/3/genre/movie/list"
-  }
+  "mongodb": {
+    "username": "upcomingAppAdmin",
+    "password": "moviesAppAdmin",
+    "server": "localhost",
+    "port": "27017",
+    "database": "movies"
+  },
+  "TMDbToken": "1f54bd990f1cdfb230adb312546d765d",
+  "cacheValidTime": 10,
+  "TMDbUpcomingURL": "https://api.themoviedb.org/3/movie/upcoming",
+  "TMDbConfigURL": "https://api.themoviedb.org/3/configuration",
+  "TMDbGenresURL": "https://api.themoviedb.org/3/genre/movie/list"
+}
