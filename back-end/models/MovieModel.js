@@ -11,7 +11,11 @@ class MovieDao {
   }
   
   async find(query){
-    return this._db.read(query)
+    const populate = {
+      path: 'genre',
+      model: 'genres'
+    }
+    return this._db.read(query, populate)
   }
   
   async findOne(item){

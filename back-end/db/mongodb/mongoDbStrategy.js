@@ -52,8 +52,11 @@ class MongoDB extends ICrud {
   async create(item) {
     return this._collection.create(item)
   }
-  async read(query) {
-    return this._collection.find(query)
+  async read(query, populate) {
+    if(populate)
+      return this._collection.find(query).populate(populate)
+    else
+      return this._collection.find(query)
   }
   async update(_id, item) {
     return this._collection.updateOne({ _id }, { $set: item })
@@ -64,7 +67,12 @@ class MongoDB extends ICrud {
   }
 
   async drop(collection) {
-    return this._connection.dropCollection(collection)
+    //avoid drop empty collection    
+    const item = await this._collection.find({}).limit(1)    
+    if(item.length === 1){
+      console.log("dropping collection: ", collection)
+      return this._connection.dropCollection(collection)
+    }
   }
 }
 

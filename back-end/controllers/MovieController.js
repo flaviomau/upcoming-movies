@@ -4,8 +4,9 @@ const md5 = require('md5')
 
 class MovieController {
 
-  constructor(model) {
-    this.model = model
+  constructor(movieModel, genreModel) {
+    this.movieModel = movieModel
+    this.genreModel = genreModel
     this.lastAPICheck = 0
     this.lastAPIHash = 0
     this.url = config.get('TMDbUpcomingURL')
@@ -32,6 +33,21 @@ class MovieController {
     }
   }
 
+  async updateGenresCache(){
+    const url = config.get('TMDbGenresURL')
+    const response = await axios.get(url, { params: { api_key: this.token } } )
+    const genres = await this.genreModel.find({})
+
+    if(md5(genres) !== md5(response.data.genres)){      
+      await this.genreModel.drop()
+      const promisesGenres = response.data.genres.map(async genre => {
+        const item = {_id: genre.id, name: genre.name}        
+        return this.genreModel.create(item)
+      })
+      await Promise.all(promisesGenres)
+    }
+  }
+
   async getAPIBaseUrlImages(){
     const url = config.get('TMDbConfigURL')
     const response = await axios.get(url, { params: { api_key: this.token } } )
@@ -53,18 +69,18 @@ class MovieController {
     }
   }
 
-  async updateCacheDB(total_pages) {
-    console.log('updating cache database')    
+  async updateMoviesCache(total_pages) {
+    console.log('updating cache database')
     const promises = Array.from({length: total_pages}, (v, k) => axios.get(this.url, { params: { api_key: this.token, page: k+1 } } ))
     const responses = await Promise.all(promises)
     const urls = await this.getAPIBaseUrlImages()
     
-    await this.model.drop()
+    await this.movieModel.drop()
     
     const promisePages = await responses.map( async resp => {      
       const promisesMovies = resp.data.results.map(async movie => {      
         const item = this.createMovieItem(movie, urls)        
-        return this.model.create(item)
+        return this.movieModel.create(item)
       })
       return await Promise.all(promisesMovies)
     })
@@ -72,14 +88,13 @@ class MovieController {
   }
 
   async readAll(request, response, next) {
-    let movieData = []
     const cacheExpire = config.get('cacheValidTime') || 360
     try{
       if (Math.floor(Date.now() / 1000) > this.lastAPICheck + cacheExpire) {
         const apiAnswer = await this.getAPIHash()
         if (apiAnswer.hash != this.lastAPIHash) {
-          const movies = await this.updateCacheDB(apiAnswer.total_pages)
-          movieData = movies.flat()
+          await this.updateGenresCache()
+          await this.updateMoviesCache(apiAnswer.total_pages)
           this.lastAPIHash = apiAnswer.hash
         }
         this.lastAPICheck = Math.floor(Date.now() / 1000) + cacheExpire
@@ -88,21 +103,17 @@ class MovieController {
       console.log(error)
     }
     
-    if(movieData.length === 0){
-      console.log('reading from cache database')
-      this.model.find({})
-      .then(function (data) {
-        response.json(data)
-      })
-      .catch(next)
-    }else{   
-      response.json(movieData)
-    }
+    console.log('reading from cache database')
+    this.movieModel.find({})
+    .then(function (data) {
+      response.json(data)
+    })
+    .catch(next)
   }
 
   readById(request, response, next) {
     const query = { id_movie: request.params._id }
-    this.model.findOne(query)
+    this.movieModel.findOne(query)
       .then(this.handleNotFound)
       .then(function (data) {
         response.json(data)
@@ -112,7 +123,7 @@ class MovieController {
 
   create(request, response, next) {
     const movie = request.body
-    this.model.create(movie)
+    this.movieModel.create(movie)
       .then(data => {
         response.json(data)
       })
@@ -125,7 +136,7 @@ class MovieController {
   update(request, response, next) {
     const _id = request.params._id
     const movie = request.body
-    this.model.update(_id, movie)
+    this.movieModel.update(_id, movie)
       .then(data => {
         response.json(data)
       })
@@ -136,7 +147,7 @@ class MovieController {
 
   remove(request, response, next) {
     const _id = request.params._id
-    this.model.remove(_id)
+    this.movieModel.remove(_id)
       .then(function (data) {
         response.json(data)
       })
@@ -144,6 +155,6 @@ class MovieController {
   }
 }
 
-module.exports = function (MovieModel) {
-  return new MovieController(MovieModel)
+module.exports = function (MovieModel, GenreModel) {
+  return new MovieController(MovieModel, GenreModel)
 }

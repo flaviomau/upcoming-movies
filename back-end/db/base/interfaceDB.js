@@ -8,7 +8,7 @@ class NotImplementedException extends Error {
     create(item) {
       throw new NotImplementedException()
     }
-    read(item) {
+    read(item, option) {
       throw new NotImplementedException()
     }
     update(id, item) {
