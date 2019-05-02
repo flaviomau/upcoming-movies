@@ -29,7 +29,7 @@ class Movies extends Component {
     return (
       <div>
         <Navbar bg="light" expand="lg">
-          <Navbar.Brand href="#home">Upcomming Movies Web App</Navbar.Brand>
+          <Navbar.Brand href="/">Upcomming Movies Web App</Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Form inline>
               <Form.Control type="text" placeholder="Filter" className="mr-sm-2" onChange={this.handleChangeText('filter')}/>
@@ -44,7 +44,7 @@ class Movies extends Component {
           !this.props.isLoading &&
           <CardColumns>
             {
-              this.props.data.map(movie => {
+              this.props.data.length > 0 && this.props.data.map(movie => {
                 return (
                   <MovieCard key={movie._id} movie={movie} />
                 )

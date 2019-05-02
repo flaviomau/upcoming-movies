@@ -114,7 +114,7 @@ class MovieController {
   }
 
   readById(request, response, next) {
-    const query = { id_movie: request.params._id }
+    const query = { _id: request.params._id }
     this.movieModel.findOne(query)
       .then(this.handleNotFound)
       .then(function (data) {

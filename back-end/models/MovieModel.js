@@ -4,22 +4,22 @@ class MovieDao {
 
   constructor(db) {
     this._db = db
+    this.populate = {
+      path: 'genre',
+      model: 'genres'
+    }
   }
 
   async create(item){
     return this._db.create(item)
   }
   
-  async find(query){
-    const populate = {
-      path: 'genre',
-      model: 'genres'
-    }
-    return this._db.read(query, populate)
+  async find(query){    
+    return this._db.read(query, this.populate)
   }
   
   async findOne(item){
-    const movie = await this._db.read(item)
+    const movie = await this._db.read(item, this.populate)
     if(movie.length == 0)
       return null
     else{
