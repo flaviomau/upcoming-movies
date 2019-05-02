@@ -104,7 +104,9 @@ class MovieController {
     }
     
     console.log('reading from cache database')
-    this.movieModel.find({})
+    const query = (request.query.filter) ? {name: { $regex: '.*' + request.query.filter + '.*', $options: 'i' }} :  {}
+
+    this.movieModel.find(query)
     .then(function (data) {
       response.json(data)
     })
