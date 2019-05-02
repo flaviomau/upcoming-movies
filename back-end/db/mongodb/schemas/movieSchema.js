@@ -5,20 +5,16 @@ const movieSchema = new Mongoose.Schema({
     required: true
   },
   poster: {
-    type: String,
-    required: true
+    type: String
   },
   backdrop: {
-    type: String,
-    required: true
+    type: String
   },
   genre: {
-    type: String,
-    required: true
+    type: [String]
   },
   overview: {
-    type: String,
-    required: true
+    type: String
   },
   releaseDate: {
     type: String,

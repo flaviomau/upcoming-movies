@@ -17,6 +17,9 @@ class NotImplementedException extends Error {
     delete(id) {
       throw new NotImplementedException()
     }
+    drop(collection){
+      throw new NotImplementedException()
+    }
     isConnected() {
       throw new NotImplementedException()
     }

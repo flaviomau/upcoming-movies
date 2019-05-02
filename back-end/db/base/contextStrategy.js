@@ -13,7 +13,7 @@ class ContextStrategy extends IDb {
     return this._database.connect()
   }
 
-  create(item) {
+  async create(item) {
     return this._database.create(item)
   }
 
@@ -27,6 +27,10 @@ class ContextStrategy extends IDb {
   
   delete(id) {
     return this._database.delete(id)
+  }
+
+  drop(collection) {
+    return this._database.drop(collection)
   }
 }
 

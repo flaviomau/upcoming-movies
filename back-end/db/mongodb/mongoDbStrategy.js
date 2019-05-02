@@ -62,6 +62,10 @@ class MongoDB extends ICrud {
   async delete(_id) {
     return this._collection.deleteOne({ _id })
   }
+
+  async drop(collection) {
+    return this._connection.dropCollection(collection)
+  }
 }
 
 module.exports = MongoDB

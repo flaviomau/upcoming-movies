@@ -30,6 +30,10 @@ class MovieDao {
   async remove(id_movie){
     return this._db.delete(id_movie)
   }
+
+  async drop(){
+    return this._db.drop('movies')
+  }
 }
 
 module.exports = MovieDao
