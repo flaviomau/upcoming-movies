@@ -38,7 +38,9 @@ app.use(function(err, request, response, next) {
   response.status(err.status || 500).json({ err: err.message })
 })
 
-var server = app.listen(4000, function(){
+const port = process.env.PORT || 4000
+
+var server = app.listen(port, function(){
   var host = server.address().address
   var port = server.address().port
   console.log('Upcoming Movies Server listening at http://%s:%s', host, port)

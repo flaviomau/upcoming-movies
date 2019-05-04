@@ -1,0 +1,14 @@
+{
+    "mongodb": {
+      "username": "umwas",
+      "password": "umwas04052019",
+      "server": "ds127843.mlab.com",
+      "port": "27843",
+      "database": "heroku_zmzktkg4"
+    },
+    "TMDbToken": "1f54bd990f1cdfb230adb312546d765d",
+    "cacheValidTime": 10,
+    "TMDbUpcomingURL": "https://api.themoviedb.org/3/movie/upcoming",
+    "TMDbConfigURL": "https://api.themoviedb.org/3/configuration",
+    "TMDbGenresURL": "https://api.themoviedb.org/3/genre/movie/list"
+  }
