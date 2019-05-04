@@ -3,7 +3,7 @@ Web application developed like a test code for a Full Stack position in ArcTouch
 
 This MVP uses the TMDb database to show the upcoming movies.
 
-[Live demo](http://upcoming-movies-web-app.herokuapp.com/)  [Public API](http://upcoming-movies-web-app-server.herokuapp.com)
+[Live demo](http://upcoming-movies-web-app.herokuapp.com/)<br/>[Public API](http://upcoming-movies-web-app-server.herokuapp.com)
 
 # Architecture
 ## Front-end
