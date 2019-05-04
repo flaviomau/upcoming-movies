@@ -1,10 +1,10 @@
 {
   "mongodb": {
-    "username": "upcomingAppAdmin",
-    "password": "moviesAppAdmin",
-    "server": "localhost",
-    "port": "27017",
-    "database": "movies"
+    "username": "umwas",
+    "password": "umwas04052019",
+    "server": "ds151486.mlab.com",
+    "port": "51486",
+    "database": "heroku_v33bdqt8"
   },
   "TMDbToken": "1f54bd990f1cdfb230adb312546d765d",
   "cacheValidTime": 10,
